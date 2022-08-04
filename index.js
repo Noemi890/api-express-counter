@@ -12,7 +12,13 @@ let counter = 0
 
 app.get("/counter", (req, res) => {
   console.log('im here')
-  res.json({counter: counter})
+  res.json({counter})
+})
+
+app.delete("/counter", (req, res) => {
+  counter = 0
+
+  res.json({counter})
 })
 
 
