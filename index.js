@@ -10,6 +10,18 @@ app.use(express.json())
 
 const findCounter = (name) => {
   const found = counters.find(counter => counter.name === name)
+  // My first approach here was to return either if it was undefined or not, and then
+  // return an error in the GET request if it was returning undefined
+  if (!found) {
+    counters.push({
+      name: `${name}`,
+      value: 0
+    })
+    return {
+    name: `${name}`,
+    value: 0
+  }
+  }
 
   return found
 }
@@ -22,8 +34,7 @@ app.get("/counters", (req, res) => {
 app.get("/counters/:name", (req, res) => {
   const name = req.params.name
   const counter = findCounter(name)
-  if (counter) return res.json(counter)
-  else res.json("counter not found")
+  return res.json(counter)
 })
 
 app.delete("/counters/:name", (req, res) => {
