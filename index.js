@@ -27,7 +27,7 @@ app.delete("/counters/:name", (req, res) => {
 
   counter.value = 0
 
-  res.json({counter})
+  res.json(counter)
 })
 
 app.post("/counters/:name/increment", (req, res) => {
@@ -35,7 +35,7 @@ app.post("/counters/:name/increment", (req, res) => {
   let counter = findCounter(name)
   counter.value++
 
-  res.json({counter})
+  res.status(201).json(counter)
 })
 
 app.post("/counters/:name/decrement", (req, res) => {
@@ -43,7 +43,7 @@ app.post("/counters/:name/decrement", (req, res) => {
   let counter = findCounter(name)
   counter.value--
 
-  res.json({counter})
+  res.status(201).json(counter)
 })
 
 app.post("/counters/:name/double", (req, res) => {
@@ -51,7 +51,7 @@ app.post("/counters/:name/double", (req, res) => {
   let counter = findCounter(name)
   counter.value *= 2
 
-  res.json({counter})
+  res.status(201).json(counter)
 })
 
 app.put("/counters/:name", (req, res) => {
