@@ -11,7 +11,8 @@ app.use(express.json())
 const findCounter = (name) => {
   const found = counters.find(counter => counter.name === name)
 
-  return found
+  if (found) return found
+  else throw new Error("No counter found")
 }
 
 app.get("/counters", (req, res) => {
