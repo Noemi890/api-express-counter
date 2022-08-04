@@ -21,6 +21,24 @@ app.delete("/counter", (req, res) => {
   res.json({counter})
 })
 
+app.post("/counter/increment", (req, res) => {
+  counter++
+
+  res.json({counter})
+})
+
+app.post("/counter/decrement", (req, res) => {
+  counter--
+
+  res.json({counter})
+})
+
+app.post("/counter/double", (req, res) => {
+  counter *= 2
+
+  res.json({counter})
+})
+
 
 const port = 3030
 app.listen(port, () => {
