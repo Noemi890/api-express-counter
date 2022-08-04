@@ -39,6 +39,12 @@ app.post("/counter/double", (req, res) => {
   res.json({counter})
 })
 
+app.post("/counter", (req, res) => {
+  if (req.query.value) counter = Number(req.query.value)
+
+  res.json({counter})
+})
+
 
 const port = 3030
 app.listen(port, () => {
