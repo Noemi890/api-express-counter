@@ -1,48 +1,67 @@
 const express = require("express")
 const morgan = require("morgan")
 const cors = require("cors")
-
+const counters = require("./counters")
 const app = express()
 
 app.use(morgan("dev"))
 app.use(cors())
 app.use(express.json())
 
-let counter = 0
+const findCounter = (name) => {
+  const found = counters.find(counter => counter.name === name)
 
-app.get("/counter", (req, res) => {
+  return found
+}
+
+app.get("/counters", (req, res) => {
   console.log('im here')
-  res.json({counter})
+  res.json(counters)
 })
 
-app.delete("/counter", (req, res) => {
-  counter = 0
+app.delete("/counters/:name", (req, res) => {
+  const name = req.params.name
 
-  res.json({counter})
-})
+  const counter = findCounter(name)
 
-app.post("/counter/increment", (req, res) => {
-  counter++
-
-  res.json({counter})
-})
-
-app.post("/counter/decrement", (req, res) => {
-  counter--
+  counter.value = 0
 
   res.json({counter})
 })
 
-app.post("/counter/double", (req, res) => {
-  counter *= 2
+app.post("/counters/:name/increment", (req, res) => {
+  const name = req.params.name
+  let counter = findCounter(name)
+  counter.value++
 
   res.json({counter})
 })
 
-app.post("/counter", (req, res) => {
-  if (req.query.value) counter = Number(req.query.value)
+app.post("/counters/:name/decrement", (req, res) => {
+  const name = req.params.name
+  let counter = findCounter(name)
+  counter.value--
 
   res.json({counter})
+})
+
+app.post("/counters/:name/double", (req, res) => {
+  const name = req.params.name
+  let counter = findCounter(name)
+  counter.value *= 2
+
+  res.json({counter})
+})
+
+app.put("/counters/:name", (req, res) => {
+  if (req.query.value) {
+    const value = Number(req.query.value)
+    const name = req.params.name
+    const counter = findCounter(name)
+    counter.value = value
+    res.json(counter)
+  }
+
 })
 
 
